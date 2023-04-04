@@ -33,16 +33,19 @@ class Dino:
     X_pos = 80
     Y_pos = 310
     Y_pos_duck = 340
+    Jump_VAL = 8.5
 
     def __init__(self):
         self.duck_img = Duck
         self.run_img = Run
         self.jump_img = Jump
+
         self.dino_duck = False
         self.dino_run = True
         self.dino_jump =False
 
         self.step_index = 0
+        self.jump_val = self.Jump_VAL
         self.image = self.run_img[0]
         self.dino_rect =  self.image.get_rect()
         self.dino_rect.x = self.X_pos
@@ -71,15 +74,31 @@ class Dino:
             self.dino_jump = False
 
     def duck(self):
-        pass
+        self.image = self.duck_img[self.step_index // 5]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x =self.X_pos
+        self.dino_rect.y =self.Y_pos_duck
+        self.step_index += 1
 
     
     
     def run(self):
-        pass
+        self.image = self.run_img[self.step_index // 5]
+        self.dino_rect = self.image.get_rect()
+        self.dino_rect.x =self.X_pos
+        self.dino_rect.y =self.Y_pos
+        self.step_index += 1
 
     def jump(self):
-        pass
+        self.image = self.jump_img
+        if self.dino_jump:
+            self.dino_rect.y -= self.jump_val * 4
+            self.jump_val -= 0.8 
+        if self.jump_val < - self.Jump_VAL:
+            self.dino_jump = False
+            self.dino_jump = self.Jump_VAL
+
+        
         
     def draw(self, screen):
         screen.blit(self.image,(self.dino_rect.x,self.dino_rect.y))
